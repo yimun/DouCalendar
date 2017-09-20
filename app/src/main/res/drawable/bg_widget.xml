@@ -4,6 +4,6 @@
     <solid
         android:color="#EFFFFFFF"/>
     <corners
-        android:radius="4dp"/>
+        android:radius="@dimen/widget_radius"/>
 
 </shape>

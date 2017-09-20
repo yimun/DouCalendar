@@ -7,94 +7,122 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_widget"
-    android:orientation="vertical"
-    android:padding="15dp">
-
-    <ImageView
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:src="@drawable/ic_equote"/>
-
-    <TextView
-        android:id="@+id/tv_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:lines="2"
-        android:textColor="@color/text_gray"
-        android:textSize="16sp"
-        tools:text="你一无是处全是缺点，但还有一个人无条件的喜欢你，这就是你要努力改变的意义"/>
-
-    <TextView
-        android:id="@+id/tv_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/text_gray"
-        android:visibility="gone"
-        tools:text="————你说呢"
-        tools:visibility="gone"/>
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_widget_title"
+        android:gravity="center_vertical"
+        android:padding="10dp">
 
         <ImageView
-            android:id="@+id/iv_cover"
-            android:layout_width="45dp"
-            android:layout_height="60dp"
-            android:background="@drawable/ic_cover_default_movie"
-            android:scaleType="centerCrop"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/logo_douban"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@string/title_widget"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_equote"/>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
+            tools:text="你一无是处全是缺点，但还有一个人无条件的喜欢你，这就是你要努力改变的意义"/>
+
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/text_gray"
+            android:visibility="gone"
+            tools:text="————你说呢"
+            tools:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_movie_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_gray"
-                android:textSize="17sp"
-                tools:text="多啦A梦：伴我同行"/>
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="45dp"
+                android:layout_height="60dp"
+                android:background="@drawable/ic_cover_default_movie"
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="4dp">
+                android:layout_marginLeft="12dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_movie_score"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_movie_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_gray"
-                    android:textSize="26sp"
-                    android:layout_marginTop="-2dp"
-                    tools:text="7.9"/>
+                    android:textSize="17sp"
+                    tools:text="多啦A梦：伴我同行"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:orientation="vertical">
-
-                    <include
-                        layout="@layout/rating_bar_layout"/>
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tv_rating_count"
+                        android:id="@+id/tv_movie_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="-2dp"
                         android:textColor="@color/text_gray"
-                        android:textSize="10sp"
-                        tools:text="123123人评价"/>
+                        android:textSize="26sp"
+                        tools:text="7.9"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:orientation="vertical">
+
+                        <include
+                            layout="@layout/rating_bar_layout"/>
+
+                        <TextView
+                            android:id="@+id/tv_rating_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_gray"
+                            android:textSize="10sp"
+                            tools:text="123123人评价"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -102,62 +130,60 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/black_overlay"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="40dp"
-            android:layout_height="42dp"
-            android:background="@drawable/ic_calendar_small"
-            android:gravity="bottom|center_horizontal"
-            android:paddingBottom="4dp"
-            android:textColor="@color/text_gray"
-            android:textSize="23sp"
-            tools:text="3"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/light_gray"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical">
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/label_yellow"
-                android:gravity="center"
-                android:paddingBottom="1dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="1dp"
-                android:text="@string/today_in_history"
-                android:textColor="@color/white"
-                android:textSize="11sp"/>
-
-            <TextView
-                android:id="@+id/tv_event"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:id="@+id/tv_date"
+                android:layout_width="40dp"
+                android:layout_height="42dp"
+                android:background="@drawable/ic_calendar_small"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="4dp"
                 android:textColor="@color/text_gray"
-                android:textSize="12sp"
-                tools:text="多啦A梦的生日"/>
+                android:textSize="23sp"
+                tools:text="3"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/label_yellow"
+                    android:gravity="center"
+                    android:paddingBottom="1dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="1dp"
+                    android:text="@string/today_in_history"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"/>
+
+                <TextView
+                    android:id="@+id/tv_event"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp"
+                    tools:text="多啦A梦的生日"/>
+            </LinearLayout>
+
         </LinearLayout>
-
     </LinearLayout>
-
 
 </LinearLayout>

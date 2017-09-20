@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">DouCalendar</string>
+    <string name="app_name">豆历</string>
+    <string name="title_widget">豆瓣・电影日历</string>
+
 
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
