@@ -6,12 +6,9 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.text.TextUtils
 import android.util.Log
-import android.view.View
 import android.widget.RemoteViews
-import com.squareup.picasso.Picasso
-import me.yimu.doucalendar.model.CalendarModel
-import me.yimu.doucalendar.model.DayModel
 
 
 /**
@@ -29,57 +26,42 @@ class CalendarWidgetProvider : AppWidgetProvider() {
         for (i in 0..N - 1) {
             val appWidgetId = appWidgetIds?.get(i)
             val views = RemoteViews(context?.packageName, R.layout.appwidget_provider_layout)
-            context?.let {
-                val dayModel = CalendarModel.getDayModel(context, Utils.getFormatDateString())
-                views.setTextViewText(R.id.tv_content, dayModel?.content)
-                if (dayModel != null && dayModel.contributor.isNullOrBlank().not()) {
-                    views.setViewVisibility(R.id.tv_author, View.VISIBLE)
-                    views.setTextViewText(R.id.tv_author, dayModel.contributor)
-                } else {
-                    views.setViewVisibility(R.id.tv_author, View.GONE)
-                }
-                views.setTextViewText(R.id.tv_movie_name, dayModel?.suggestion)
-                val date = Utils.sdf.parse(dayModel?.date)
-                views.setTextViewText(R.id.tv_date, date.date.toString())
-                views.setTextViewText(R.id.tv_event, "${dayModel?.event} (${dayModel?.detailDate})")
 
-                Picasso.with(context).load(dayModel?.pic)
-                        .into(views, R.id.iv_cover, appWidgetIds)
-                bindRatingBar(views, dayModel)
-
-                val intent = Intent()
-                intent.action = Intent.ACTION_VIEW
-                intent.`package` = "com.douban.frodo"
-                intent.data = Uri.parse(dayModel?.url)
-                val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-                views.setOnClickPendingIntent(R.id.layout, pendingIntent)
+            val intent = Intent(context, CalendarWidgetService::class.java)
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            // When intents are compared, the extras are ignored, so we need to embed the extras
+            // into the data so that the extras will not be ignored.
+            intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
+            if (appWidgetId != null) {
+                views.setRemoteAdapter(appWidgetId, R.id.list_view, intent)
             }
+
+            // Here we setup the a pending intent template. Individuals items of a collection
+            // cannot setup their own pending intents, instead, the collection as a whole can
+            // setup a pending intent template, and the individual items can set a fillInIntent
+            // to create unique before on an item to item basis.
+            val clickIntent = Intent(context, CalendarWidgetProvider::class.java)
+            clickIntent.action = ACTION_CLICK
+            clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
+            val toastPendingIntent = PendingIntent.getBroadcast(context, 0, clickIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT)
+            views.setPendingIntentTemplate(R.id.list_view, toastPendingIntent)
 
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetId?.let { appWidgetManager?.updateAppWidget(appWidgetId, views) }
         }
     }
 
-    fun bindRatingBar(views: RemoteViews, dayModel: DayModel?) {
-        if (dayModel == null || dayModel.rating == null) {
-            return
+    override fun onReceive(context: Context?, intent: Intent?) {
+        super.onReceive(context, intent)
+        Log.d(TAG, "onReceive=${intent?.action} ${intent?.dataString}")
+        if (TextUtils.equals(intent?.action, ACTION_CLICK)) {
+            val vIntent = Intent()
+            vIntent.data = intent?.data
+            vIntent.action = Intent.ACTION_VIEW
+            context?.startActivity(vIntent)
         }
-        var rating = dayModel.rating?.toFloat() ?: 0f
-        views.setTextViewText(R.id.tv_movie_score, rating.toString())
-        views.setTextViewText(R.id.tv_rating_count, "${dayModel?.numberOfComments}人评价")
-
-        val stars = listOf(R.id.star1, R.id.star2,  R.id.star3, R.id.star4, R.id.star5)
-        stars.forEach {
-            if (rating > 2.0) {
-                views.setImageViewResource(it, R.drawable.rating_star_xsmall_on)
-            } else if (rating > 1.0) {
-                views.setImageViewResource(it, R.drawable.rating_star_xsmall_half)
-            } else {
-                views.setImageViewResource(it, R.drawable.rating_star_xsmall_off)
-            }
-            rating -= 2f
-        }
-
     }
 
 }
