@@ -18,8 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:lines="2"
         android:textColor="@color/text_gray"
         android:textSize="16sp"
         tools:text="你一无是处全是缺点，但还有一个人无条件的喜欢你，这就是你要努力改变的意义"/>

@@ -44,7 +44,7 @@ internal class CalendarRemoteViewsFactory(private val mContext: Context) : Remot
         views.setTextViewText(R.id.tv_content, dayModel?.content)
         if (dayModel != null && dayModel.contributor.isNullOrBlank().not()) {
             views.setViewVisibility(R.id.tv_author, View.VISIBLE)
-            views.setTextViewText(R.id.tv_author, dayModel.contributor)
+            views.setTextViewText(R.id.tv_author, "——${dayModel.contributor}")
         } else {
             views.setViewVisibility(R.id.tv_author, View.GONE)
         }
