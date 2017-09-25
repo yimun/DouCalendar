@@ -9,6 +9,7 @@ import android.widget.RemoteViewsService
 import com.squareup.picasso.Picasso
 import me.yimu.doucalendar.model.CalendarModel
 import me.yimu.doucalendar.model.DayModel
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -18,13 +19,11 @@ import java.util.*
 
 class CalendarWidgetService : RemoteViewsService() {
 
-
     override fun onGetViewFactory(intent: Intent): RemoteViewsService.RemoteViewsFactory {
         return CalendarRemoteViewsFactory(this.applicationContext)
     }
 }
 
-val ACTION_CLICK = "yimu.me.doucalendar.ACTION_CLICK"
 
 internal class CalendarRemoteViewsFactory(private val mContext: Context) : RemoteViewsService.RemoteViewsFactory {
 
@@ -39,7 +38,7 @@ internal class CalendarRemoteViewsFactory(private val mContext: Context) : Remot
     override fun getViewAt(position: Int): RemoteViews {
         val date = Date()
         date.date -= position
-        val dayModel = CalendarModel.getDayModel(mContext, Utils.sdf.format(date))
+        val dayModel = CalendarModel.getDayModel(mContext, SimpleDateFormat("M月d日", Locale.CHINA).format(date))
         val views = RemoteViews(mContext.packageName, R.layout.layout_widget_content)
         views.setTextViewText(R.id.tv_content, dayModel?.content)
         if (dayModel != null && dayModel.contributor.isNullOrBlank().not()) {
@@ -59,7 +58,7 @@ internal class CalendarRemoteViewsFactory(private val mContext: Context) : Remot
         bindRatingBar(views, dayModel)
 
         val intent = Intent()
-        intent.action = ACTION_CLICK
+        intent.action = CalendarWidgetProvider.ACTION_CLICK
         intent.data = Uri.parse(dayModel?.url)
         views.setOnClickFillInIntent(R.id.list_item, intent)
         return views

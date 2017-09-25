@@ -3,11 +3,10 @@ package me.yimu.doucalendar
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.text.TextUtils
-import android.util.Log
 import android.widget.RemoteViews
 
 
@@ -18,9 +17,33 @@ class CalendarWidgetProvider : AppWidgetProvider() {
 
     val TAG = "CalendarWidgetProvider"
 
+    companion object {
+        val ACTION_CLICK = BuildConfig.APPLICATION_ID + ".ACTION_CLICK"
+        val ACTION_AUTO_UPDATE = BuildConfig.APPLICATION_ID + ".ACTION_AUTO_UPDATE"
+    }
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        super.onReceive(context, intent)
+        Logger.d(TAG, "onReceive=${intent?.action} ${intent?.dataString}")
+        when (intent?.action) {
+            ACTION_CLICK -> {
+                val vIntent = Intent()
+                vIntent.data = intent?.data
+                vIntent.action = Intent.ACTION_VIEW
+                context?.startActivity(vIntent)
+            }
+            ACTION_AUTO_UPDATE -> {
+                val appWidgetManager = AppWidgetManager.getInstance(context)
+                val appWidget = ComponentName(context?.packageName, javaClass.name)
+                val appIds = appWidgetManager.getAppWidgetIds(appWidget)
+                onUpdate(context, appWidgetManager, appIds)
+            }
+        }
+    }
+
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
-        Log.d(TAG, "onUpdate")
+        Logger.d(TAG, "onUpdate")
         val N = appWidgetIds?.size ?: 0
 
         for (i in 0..N - 1) {
@@ -53,15 +76,14 @@ class CalendarWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        super.onReceive(context, intent)
-        Log.d(TAG, "onReceive=${intent?.action} ${intent?.dataString}")
-        if (TextUtils.equals(intent?.action, ACTION_CLICK)) {
-            val vIntent = Intent()
-            vIntent.data = intent?.data
-            vIntent.action = Intent.ACTION_VIEW
-            context?.startActivity(vIntent)
-        }
+    override fun onEnabled(context: Context?) {
+        super.onEnabled(context)
+        CalendarWidgetAlarm.startAlarm(context)
+    }
+
+    override fun onDisabled(context: Context?) {
+        super.onDisabled(context)
+        CalendarWidgetAlarm.stopAlarm(context)
     }
 
 }

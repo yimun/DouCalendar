@@ -1,11 +1,12 @@
 package me.yimu.doucalendar
 
+import android.Manifest
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import me.yimu.doucalendar.model.CalendarModel
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -43,18 +44,14 @@ class MainActivity : AppCompatActivity() {
         if (AUTO_HIDE) {
             delayedHide(AUTO_HIDE_DELAY_MILLIS)
         }
-        val dateStr = Utils.getFormatDateString()
-        println(dateStr)
-        val dayModel = CalendarModel.getDayModel(this, dateStr)
-        println(dayModel)
-        val fullStr = Utils.getCalendarFromFormatDate(dateStr)
-        println(fullStr)
         false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),1)
         setContentView(R.layout.activity_main)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
