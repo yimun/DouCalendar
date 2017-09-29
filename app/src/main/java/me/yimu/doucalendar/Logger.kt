@@ -23,7 +23,7 @@ object Logger {
         val filePrinter = FilePrinter.Builder(getLogFolderPath())      // Specify the path to save log file
                 .fileNameGenerator(DateFileNameGenerator())        // Default: ChangelessFileNameGenerator("log")
                 .backupStrategy(NeverBackupStrategy())             // Default: FileSizeBackupStrategy(1024 * 1024)
-                .logFlattener(PatternFlattener("{d yyyy-MM-dd hh:mm:ss.SSS} {l}/{t}: {m}"))
+                .logFlattener(PatternFlattener("{d yyyy-MM-dd HH:mm:ss.SSS} {l}/{t}: {m}"))
                 .build()
         val level = if (BuildConfig.DEBUG) LogLevel.ALL else LogLevel.NONE
         XLog.init(level, LogConfiguration.Builder().build(), androidPrinter, filePrinter)

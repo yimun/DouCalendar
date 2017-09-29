@@ -32,6 +32,7 @@ class CalendarWidgetProvider : AppWidgetProvider() {
                 vIntent.action = Intent.ACTION_VIEW
                 context?.startActivity(vIntent)
             }
+            AppWidgetManager.ACTION_APPWIDGET_UPDATE,
             ACTION_AUTO_UPDATE -> {
                 val appWidgetManager = AppWidgetManager.getInstance(context)
                 val appWidget = ComponentName(context?.packageName, javaClass.name)
@@ -43,7 +44,7 @@ class CalendarWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
-        Logger.d(TAG, "onUpdate")
+        Logger.d(TAG, "onUpdate appWidgetIds=${appWidgetIds?.contentToString()}")
         val N = appWidgetIds?.size ?: 0
 
         for (i in 0..N - 1) {
@@ -56,7 +57,7 @@ class CalendarWidgetProvider : AppWidgetProvider() {
             // into the data so that the extras will not be ignored.
             intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
             if (appWidgetId != null) {
-                views.setRemoteAdapter(appWidgetId, R.id.list_view, intent)
+                views.setRemoteAdapter(R.id.list_view, intent)
             }
 
             // Here we setup the a pending intent template. Individuals items of a collection
@@ -72,7 +73,11 @@ class CalendarWidgetProvider : AppWidgetProvider() {
             views.setPendingIntentTemplate(R.id.list_view, toastPendingIntent)
 
             // Tell the AppWidgetManager to perform an update on the current app widget
-            appWidgetId?.let { appWidgetManager?.updateAppWidget(appWidgetId, views) }
+            appWidgetId?.let {
+                Logger.d(TAG, "start update $appWidgetId")
+                appWidgetManager?.updateAppWidget(appWidgetId, views)
+                appWidgetManager?.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_view)
+            }
         }
     }
 
