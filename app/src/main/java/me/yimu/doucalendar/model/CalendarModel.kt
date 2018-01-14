@@ -23,7 +23,7 @@ object CalendarModel {
     fun loadFromJson(context: Context) {
         var inputStream: InputStream? = null
         try {
-            inputStream = context.assets.open("moon_data.json")
+            inputStream = context.assets.open("moon_data_2018.json")
             val bufferReader = BufferedReader(InputStreamReader(inputStream))
             val type = object : TypeToken<List<DayModel>>() {}.type
             val daysList = Gson().fromJson<List<DayModel>>(bufferReader, type)

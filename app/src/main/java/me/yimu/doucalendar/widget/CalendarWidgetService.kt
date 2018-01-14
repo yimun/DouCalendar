@@ -1,12 +1,14 @@
-package me.yimu.doucalendar
+package me.yimu.doucalendar.widget
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.text.TextUtils
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.squareup.picasso.Picasso
+import me.yimu.doucalendar.R
 import me.yimu.doucalendar.model.CalendarModel
 import me.yimu.doucalendar.model.DayModel
 import java.text.SimpleDateFormat
@@ -49,7 +51,11 @@ internal class CalendarRemoteViewsFactory(private val mContext: Context) : Remot
         }
         views.setTextViewText(R.id.tv_movie_name, dayModel?.suggestion)
         views.setTextViewText(R.id.tv_date, date.date.toString())
-        views.setTextViewText(R.id.tv_event, "${dayModel?.event} (${dayModel?.detailDate})")
+        if (TextUtils.isEmpty(dayModel?.detailDate)) {
+            views.setTextViewText(R.id.tv_event, dayModel?.event)
+        } else {
+            views.setTextViewText(R.id.tv_event, "${dayModel?.event} (${dayModel?.detailDate})")
+        }
 
         // 这里非主线程，只可以同步获取
         // https://stackoverflow.com/questions/24771297/picasso-load-images-to-widget-listview/42437729#42437729

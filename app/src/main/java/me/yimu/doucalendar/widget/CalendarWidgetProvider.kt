@@ -1,4 +1,4 @@
-package me.yimu.doucalendar
+package me.yimu.doucalendar.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -8,6 +8,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
+import me.yimu.doucalendar.BuildConfig
+import me.yimu.doucalendar.Logger
+import me.yimu.doucalendar.R
 
 
 /**
